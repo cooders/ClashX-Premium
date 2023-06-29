@@ -1,0 +1,696 @@
+port: 7890
+# 本端SOCKS5代理服务器端口
+socks-port: 7891
+
+# Linux 和 macOS 的透明代理服务器端口（重定向 TCP 和 TProxy UDP）
+redir-port: 7892
+
+# Linux 的透明代理服务器端口（TProxy TCP 和 TProxy UDP）
+# tproxy-port: 7893
+
+# HTTP(S) 和 SOCKS4(A)/SOCKS5 服务器位于同一端口
+mixed-port: 7893
+
+# 本地 SOCKS5/HTTP(S) 服务器的身份验证
+# authentication:
+#  - "user1:pass1"
+#  - "user2:pass2"
+
+# 设置为 true 以允许从以下位置连接到本地服务器
+allow-lan: false
+
+# 此功能仅在 allow-lan 设置为 true 时生效，支持三种参数：
+# '*': 绑定所有IP地址
+# 192.168.122.11：绑定单个IPv4地址
+# "[aaaa::a8aa:ff:fe09:57d8]": 绑定单个 IPv6 地址
+# bind-address: '*'
+
+# Clash 路由工作模式
+# 规则匹配（rule）：基于规则的数据包路由
+# 全局代理（global）：所有数据包将被转发到单个端点
+# 全局直连（direct）：直接将数据包转发到Internet
+# 脚本模式（Script）：基于脚本的规则
+mode: rule
+
+# Clash 默认将日志输出至 STDOUT
+# 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。
+# 5 个级别：silent / info / warning / error / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
+log-level: info
+
+# When set to false, resolver won't translate hostnames to IPv6 addresses
+# 设置为 false 时，解析器不会将主机名转换为 IPv6 地址
+ipv6: false
+
+# clash 的 RESTful API 监听地址
+external-controller: 127.0.0.1:9090
+
+# 存放配置文件的相对路径，或存放网页静态资源的绝对路径
+# Clash core 将会将其部署在 http://{{external-controller}}/ui
+# external-ui: folder
+
+# RESTful API 的口令 (可选)
+# 通过 HTTP 头中 Authorization: Bearer ${secret} 参数来验证口令
+# 当 RESTful API 的监听地址为 0.0.0.0 时，请务必设定口令以保证安全
+# secret: ""
+
+# 出站网卡接口
+# interface-name: en0
+
+# 仅适用于 Linux 的 fwmark
+# routing-mark: 6666
+
+# DNS 服务器和建立连接时的 静态 Hosts, 仅在 dns.enhanced-mode 模式为 redir-host 生效
+# 支持通配符域名 (例如: *.clash.dev, *.foo.*.example.com )
+# 不使用通配符的域名优先级高于使用通配符的域名 (例如: foo.example.com > *.example.com > .example.com )
+# 注意: +.foo.com 的效果等同于 .foo.com 和 foo.com
+hosts:
+    services.googleapis.cn: 216.58.200.67
+    www.google.cn: 216.58.200.67
+
+#通过将 "append-system-dns" 设置为 false，你可以确保 Clash for Android 仅使用自己的 DNS 配置，而不会受到系统 DNS 设置的影响。
+clash-for-android:
+    append-system-dns: false 
+
+profile:
+    tracing: false # 设置为 true 时，编译器或运行时系统会生成额外的代码，在程序执行过程中记录所需的信息。这些信息通常会输出到日志文件或控制台以供分析使用。
+  # Store the `select` results in $HOME/.config/clash/.cache
+  # set false If you don't want this behavior
+  # when two different configurations have groups with the same name, the selected values are shared
+  # store-selected: true
+
+  # persistence fakeip
+  # store-fake-ip: false
+
+# DNS 服务器配置(可选；若不配置，程序内置的 DNS 服务会被关闭)
+dns:
+  enable: true
+  listen: 127.0.0.1:8853:53
+  ipv6: false
+  default-nameserver: [223.5.5.5, 1.0.0.1]
+  enhanced-mode: fake-ip
+  fake-ip-filter: ['*.lan', 'stun.*.*.*', 'stun.*.*', time.windows.com, time.nist.gov, time.apple.com, time.asia.apple.com, '*.ntp.org.cn', '*.openwrt.pool.ntp.org', time1.cloud.tencent.com, time.ustc.edu.cn, pool.ntp.org, ntp.ubuntu.com, ntp.aliyun.com, ntp1.aliyun.com, ntp2.aliyun.com, ntp3.aliyun.com, ntp4.aliyun.com, ntp5.aliyun.com, ntp6.aliyun.com, ntp7.aliyun.com, time1.aliyun.com, time2.aliyun.com, time3.aliyun.com, time4.aliyun.com, time5.aliyun.com, time6.aliyun.com, time7.aliyun.com, '*.time.edu.cn', time1.apple.com, time2.apple.com, time3.apple.com, time4.apple.com, time5.apple.com, time6.apple.com, time7.apple.com, time1.google.com, time2.google.com, time3.google.com, time4.google.com, music.163.com, '*.music.163.com', '*.126.net', musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, '*.kuwo.cn', api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, '*.y.qq.com', streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, '*.xiami.com', '*.music.migu.cn', music.migu.cn, '*.msftconnecttest.com', '*.msftncsi.com', localhost.ptlogin2.qq.com, '*.*.*.srv.nintendo.net', '*.*.stun.playstation.net', 'xbox.*.*.microsoft.com', '*.ipv6.microsoft.com', '*.*.xboxlive.com', speedtest.cros.wr.pvp.net,'*.douyin.com','*.ximalaya.com','*.feishu.cn']
+
+  # 支持 UDP / TCP / DoT / DoH 协议的 DNS 服务，可以指明具体的连接端口号。
+  # 所有 DNS 请求将会直接发送到服务器，不经过任何代理。
+  # Clash 会使用最先获得的解析记录回复 DNS 请求
+  nameserver:
+    - tls://dns.rubyfish.cn:853 # DNS over TLS
+    - https://1.1.1.1/dns-query # DNS over HTTPS
+    - https://223.6.6.6/dns-query
+    - https://rubyfish.cn/dns-query
+    - https://dns.pub/dns-query
+
+  # 当 fallback 参数被配置时, DNS 请求将同时发送至上方 nameserver 列表和下方 fallback 列表中配置的所有 DNS 服务器.
+  # 当解析得到的 IP 地址的地理位置不是 CN 时，clash 将会选用 fallback 中 DNS 服务器的解析结果。
+  fallback:
+    - https://dns.google/dns-query
+    - https://dns.rubyfish.cn/dns-query
+    - https://public.dns.iij.jp/dns-query
+    - tls://8.8.4.4
+
+  # 如果使用 nameserver 列表中的服务器解析的 IP 地址在下方列表中的子网中，则它们被认为是无效的，
+  # Clash 会选用 fallback 列表中配置 DNS 服务器解析得到的结果。
+  #
+  # 当 fallback-filter.geoip 为 true 且 IP 地址的地理位置为 CN 时，
+  # Clash 会选用 nameserver 列表中配置 DNS 服务器解析得到的结果。
+  #
+  # 当 fallback-filter.geoip 为 false, 如果解析结果不在 fallback-filter.ipcidr 范围内，
+  # Clash 总会选用 nameserver 列表中配置 DNS 服务器解析得到的结果。
+  #
+  # 采取以上逻辑进行域名解析是为了对抗 DNS 投毒攻击。
+  fallback-filter:
+    geoip: true 
+    geoip-code: CN
+    ipcidr: 
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+      - 127.0.0.1/32
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.twitter.com'
+      - '+.youtube.com'
+      - '+.xn--ngstr-lra8j.com'
+      - '+.google.cn'
+      - '+.googleapis.cn'
+      - '+.googleapis.com'
+      - '+.gvt1.com'
+
+  # Lookup domains via specific nameservers
+  # nameserver-policy:
+  #   'www.baidu.com': '114.114.114.114'
+  #   '+.internal.crop.com': '10.0.0.1'
+
+# 代理组配置文件信息
+proxy-providers: 
+  泡泡Dog:
+    type: http
+    url: "https://v1.dogapi.yachts/api/v1/client/subscribe?token=c118ed05f93562f5d8c6ba220dba4ad7&flag=clash" # 机场给你的订阅链接
+    interval: 36000 # 每10小时更新一次订阅
+    path: ./profiles/泡泡Dog.yaml # 保存在本地文件的名字
+    health-check:
+      enable: true
+      interval: 3600
+      # lazy: true
+      url: http://www.gstatic.com/generate_204
+#proxy-groups 代理组设置
+proxy-groups:
+  - name: Proxies
+    type: select
+    use:
+      - 泡泡Dog
+    proxies:
+      - DIRECT   
+
+#rule-providers规则集
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: ./ruleset/reject.yaml
+    interval: 86400
+
+  icloud:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt"
+    path: ./ruleset/icloud.yaml
+    interval: 86400
+
+  apple:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt"
+    path: ./ruleset/apple.yaml
+    interval: 86400
+
+  google:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/google.txt"
+    path: ./ruleset/google.yaml
+    interval: 86400
+
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+
+  direct:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
+    path: ./ruleset/direct.yaml
+    interval: 86400
+
+  private:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
+    path: ./ruleset/private.yaml
+    interval: 86400
+
+  gfw:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt"
+    path: ./ruleset/gfw.yaml
+    interval: 86400
+
+  greatfire:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/greatfire.txt"
+    path: ./ruleset/greatfire.yaml
+    interval: 86400
+
+  telegramcidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
+    path: ./ruleset/telegramcidr.yaml
+    interval: 86400
+
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt"
+    path: ./ruleset/cncidr.yaml
+    interval: 86400
+
+  lancidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt"
+    path: ./ruleset/lancidr.yaml
+    interval: 86400
+
+  applications:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt"
+    path: ./ruleset/applications.yaml
+    interval: 86400
+
+rules:
+ # 自定义规则
+  - DOMAIN-SUFFIX,cnki.net,DIRECT
+  - DOMAIN-SUFFIX,ieee.org,DIRECT
+  - DOMAIN-SUFFIX,acm.org,DIRECT
+  - DOMAIN-SUFFIX,imgtu.com,DIRECT
+  - DOMAIN-SUFFIX,dpdk.org,DIRECT
+  - DOMAIN-SUFFIX,freenom.com,DIRECT
+  - DOMAIN-SUFFIX,sciencedirect.com,DIRECT
+  - DOMAIN-SUFFIX,springer.com,DIRECT
+  - RULE-SET,applications,DIRECT
+  - DOMAIN,clash.razord.top,DIRECT
+  - DOMAIN,yacd.haishan.me,DIRECT
+ # GPT
+  - DOMAIN-SUFFIX,openai.com,Proxies
+  - DOMAIN-SUFFIX,sentry.io,Proxies
+  - DOMAIN-SUFFIX,pay.openai.com,Proxies
+  - DOMAIN-SUFFIX,identrust.com,Proxies
+  - DOMAIN,openaiapi-site.azureedge.net,Proxies
+  - DOMAIN-SUFFIX,chat.openai.com,Proxies
+  - DOMAIN-SUFFIX,challenges.cloudflare.com,Proxies
+  - DOMAIN-SUFFIX,auth0.openai.com,Proxies
+  - DOMAIN-SUFFIX,platform.openai.com,Proxies
+ # 国内网站
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-KEYWORD,-cn,DIRECT
+  - DOMAIN-SUFFIX,126.com,DIRECT
+  - DOMAIN-SUFFIX,126.net,DIRECT
+  - DOMAIN-SUFFIX,127.net,DIRECT
+  - DOMAIN-SUFFIX,163.com,DIRECT
+  - DOMAIN-SUFFIX,360buyimg.com,DIRECT
+  - DOMAIN-SUFFIX,36kr.com,DIRECT
+  - DOMAIN-SUFFIX,acfun.tv,DIRECT
+  - DOMAIN-SUFFIX,air-matters.com,DIRECT
+  - DOMAIN-SUFFIX,aixifan.com,DIRECT
+  - DOMAIN-KEYWORD,alicdn,DIRECT
+  - DOMAIN-KEYWORD,alipay,DIRECT
+  - DOMAIN-KEYWORD,taobao,DIRECT
+  - DOMAIN-SUFFIX,amap.com,DIRECT
+  - DOMAIN-SUFFIX,autonavi.com,DIRECT
+  - DOMAIN-KEYWORD,baidu,DIRECT
+  - DOMAIN-SUFFIX,bdimg.com,DIRECT
+  - DOMAIN-SUFFIX,bdstatic.com,DIRECT
+  - DOMAIN-SUFFIX,bilibili.com,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.com,DIRECT
+  - DOMAIN-SUFFIX,caiyunapp.com,DIRECT
+  - DOMAIN-SUFFIX,clouddn.com,DIRECT
+  - DOMAIN-SUFFIX,cnbeta.com,DIRECT
+  - DOMAIN-SUFFIX,cnbetacdn.com,DIRECT
+  - DOMAIN-SUFFIX,cootekservice.com,DIRECT
+  - DOMAIN-SUFFIX,csdn.net,DIRECT
+  - DOMAIN-SUFFIX,ctrip.com,DIRECT
+  - DOMAIN-SUFFIX,dgtle.com,DIRECT
+  - DOMAIN-SUFFIX,dianping.com,DIRECT
+  - DOMAIN-SUFFIX,douban.com,DIRECT
+  - DOMAIN-SUFFIX,doubanio.com,DIRECT
+  - DOMAIN-SUFFIX,duokan.com,DIRECT
+  - DOMAIN-SUFFIX,easou.com,DIRECT
+  - DOMAIN-SUFFIX,ele.me,DIRECT
+  - DOMAIN-SUFFIX,feng.com,DIRECT
+  - DOMAIN-SUFFIX,fir.im,DIRECT
+  - DOMAIN-SUFFIX,frdic.com,DIRECT
+  - DOMAIN-SUFFIX,g-cores.com,DIRECT
+  - DOMAIN-SUFFIX,godic.net,DIRECT
+  - DOMAIN-SUFFIX,gtimg.com,DIRECT
+  - DOMAIN,cdn.hockeyapp.net,DIRECT
+  - DOMAIN-SUFFIX,hongxiu.com,DIRECT
+  - DOMAIN-SUFFIX,hxcdn.net,DIRECT
+  - DOMAIN-SUFFIX,iciba.com,DIRECT
+  - DOMAIN-SUFFIX,ifeng.com,DIRECT
+  - DOMAIN-SUFFIX,ifengimg.com,DIRECT
+  - DOMAIN-SUFFIX,ipip.net,DIRECT
+  - DOMAIN-SUFFIX,iqiyi.com,DIRECT
+  - DOMAIN-SUFFIX,jd.com,DIRECT
+  - DOMAIN-SUFFIX,jianshu.com,DIRECT
+  - DOMAIN-SUFFIX,knewone.com,DIRECT
+  - DOMAIN-SUFFIX,le.com,DIRECT
+  - DOMAIN-SUFFIX,lecloud.com,DIRECT
+  - DOMAIN-SUFFIX,lemicp.com,DIRECT
+  - DOMAIN-SUFFIX,licdn.com,DIRECT
+  - DOMAIN-SUFFIX,luoo.net,DIRECT
+  - DOMAIN-SUFFIX,meituan.com,DIRECT
+  - DOMAIN-SUFFIX,meituan.net,DIRECT
+  - DOMAIN-SUFFIX,mi.com,DIRECT
+  - DOMAIN-SUFFIX,miaopai.com,DIRECT
+  - DOMAIN-SUFFIX,microsoft.com,DIRECT
+  - DOMAIN-SUFFIX,microsoftonline.com,DIRECT
+  - DOMAIN-SUFFIX,miui.com,DIRECT
+  - DOMAIN-SUFFIX,miwifi.com,DIRECT
+  - DOMAIN-SUFFIX,mob.com,DIRECT
+  - DOMAIN-SUFFIX,netease.com,DIRECT
+  - DOMAIN-SUFFIX,office.com,DIRECT
+  - DOMAIN-SUFFIX,office365.com,DIRECT
+  - DOMAIN-KEYWORD,officecdn,DIRECT
+  - DOMAIN-SUFFIX,oschina.net,DIRECT
+  - DOMAIN-SUFFIX,ppsimg.com,DIRECT
+  - DOMAIN-SUFFIX,pstatp.com,DIRECT
+  - DOMAIN-SUFFIX,qcloud.com,DIRECT
+  - DOMAIN-SUFFIX,qdaily.com,DIRECT
+  - DOMAIN-SUFFIX,qdmm.com,DIRECT
+  - DOMAIN-SUFFIX,qhimg.com,DIRECT
+  - DOMAIN-SUFFIX,qhres.com,DIRECT
+  - DOMAIN-SUFFIX,qidian.com,DIRECT
+  - DOMAIN-SUFFIX,qihucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,qiniucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiyipic.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,qqurl.com,DIRECT
+  - DOMAIN-SUFFIX,rarbg.to,DIRECT
+  - DOMAIN-SUFFIX,ruguoapp.com,DIRECT
+  - DOMAIN-SUFFIX,segmentfault.com,DIRECT
+  - DOMAIN-SUFFIX,sinaapp.com,DIRECT
+  - DOMAIN-SUFFIX,smzdm.com,DIRECT
+  - DOMAIN-SUFFIX,snapdrop.net,DIRECT
+  - DOMAIN-SUFFIX,sogou.com,DIRECT
+  - DOMAIN-SUFFIX,sogoucdn.com,DIRECT
+  - DOMAIN-SUFFIX,sohu.com,DIRECT
+  - DOMAIN-SUFFIX,soku.com,DIRECT
+  - DOMAIN-SUFFIX,speedtest.net,DIRECT
+  - DOMAIN-SUFFIX,sspai.com,DIRECT
+  - DOMAIN-SUFFIX,suning.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - DOMAIN-SUFFIX,tencent.com,DIRECT
+  - DOMAIN-SUFFIX,tenpay.com,DIRECT
+  - DOMAIN-SUFFIX,tianyancha.com,DIRECT
+  - DOMAIN-SUFFIX,tmall.com,DIRECT
+  - DOMAIN-SUFFIX,tudou.com,DIRECT
+  - DOMAIN-SUFFIX,umetrip.com,DIRECT
+  - DOMAIN-SUFFIX,upaiyun.com,DIRECT
+  - DOMAIN-SUFFIX,upyun.com,DIRECT
+  - DOMAIN-SUFFIX,veryzhun.com,DIRECT
+  - DOMAIN-SUFFIX,weather.com,DIRECT
+  - DOMAIN-SUFFIX,weibo.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.net,DIRECT
+  - DOMAIN-SUFFIX,xiaomicp.com,DIRECT
+  - DOMAIN-SUFFIX,ximalaya.com,DIRECT
+  - DOMAIN-SUFFIX,xmcdn.com,DIRECT
+  - DOMAIN-SUFFIX,xunlei.com,DIRECT
+  - DOMAIN-SUFFIX,yhd.com,DIRECT
+  - DOMAIN-SUFFIX,yihaodianimg.com,DIRECT
+  - DOMAIN-SUFFIX,yinxiang.com,DIRECT
+  - DOMAIN-SUFFIX,ykimg.com,DIRECT
+  - DOMAIN-SUFFIX,youdao.com,DIRECT
+  - DOMAIN-SUFFIX,youku.com,DIRECT
+  - DOMAIN-SUFFIX,zealer.com,DIRECT
+  - DOMAIN-SUFFIX,zhihu.com,DIRECT
+  - DOMAIN-SUFFIX,zhimg.com,DIRECT
+  - DOMAIN-SUFFIX,zimuzu.tv,DIRECT
+  - DOMAIN-SUFFIX,zoho.com,DIRECT
+
+ # 国外网站
+  - DOMAIN-SUFFIX,9to5mac.com,Proxies
+  - DOMAIN-SUFFIX,abpchina.org,Proxies
+  - DOMAIN-SUFFIX,adblockplus.org,Proxies
+  - DOMAIN-SUFFIX,adobe.com,Proxies
+  - DOMAIN-SUFFIX,akamaized.net,Proxies
+  - DOMAIN-SUFFIX,alfredapp.com,Proxies
+  - DOMAIN-SUFFIX,amplitude.com,Proxies
+  - DOMAIN-SUFFIX,ampproject.org,Proxies
+  - DOMAIN-SUFFIX,android.com,Proxies
+  - DOMAIN-SUFFIX,angularjs.org,Proxies
+  - DOMAIN-SUFFIX,aolcdn.com,Proxies
+  - DOMAIN-SUFFIX,apkpure.com,Proxies
+  - DOMAIN-SUFFIX,appledaily.com,Proxies
+  - DOMAIN-SUFFIX,appshopper.com,Proxies
+  - DOMAIN-SUFFIX,appspot.com,Proxies
+  - DOMAIN-SUFFIX,arcgis.com,Proxies
+  - DOMAIN-SUFFIX,archive.org,Proxies
+  - DOMAIN-SUFFIX,armorgames.com,Proxies
+  - DOMAIN-SUFFIX,aspnetcdn.com,Proxies
+  - DOMAIN-SUFFIX,att.com,Proxies
+  - DOMAIN-SUFFIX,awsstatic.com,Proxies
+  - DOMAIN-SUFFIX,azureedge.net,Proxies
+  - DOMAIN-SUFFIX,azurewebsites.net,Proxies
+  - DOMAIN-SUFFIX,bing.com,Proxies
+  - DOMAIN-SUFFIX,bintray.com,Proxies
+  - DOMAIN-SUFFIX,bit.com,Proxies
+  - DOMAIN-SUFFIX,bit.ly,Proxies
+  - DOMAIN-SUFFIX,bitbucket.org,Proxies
+  - DOMAIN-SUFFIX,bjango.com,Proxies
+  - DOMAIN-SUFFIX,bkrtx.com,Proxies
+  - DOMAIN-SUFFIX,blog.com,Proxies
+  - DOMAIN-SUFFIX,blogcdn.com,Proxies
+  - DOMAIN-SUFFIX,blogger.com,Proxies
+  - DOMAIN-SUFFIX,blogsmithmedia.com,Proxies
+  - DOMAIN-SUFFIX,blogspot.com,Proxies
+  - DOMAIN-SUFFIX,blogspot.hk,Proxies
+  - DOMAIN-SUFFIX,bloomberg.com,Proxies
+  - DOMAIN-SUFFIX,box.com,Proxies
+  - DOMAIN-SUFFIX,box.net,Proxies
+  - DOMAIN-SUFFIX,cachefly.net,Proxies
+  - DOMAIN-SUFFIX,chromium.org,Proxies
+  - DOMAIN-SUFFIX,cl.ly,Proxies
+  - DOMAIN-SUFFIX,cloudflare.com,Proxies
+  - DOMAIN-SUFFIX,cloudfront.net,Proxies
+  - DOMAIN-SUFFIX,cloudmagic.com,Proxies
+  - DOMAIN-SUFFIX,cmail19.com,Proxies
+  - DOMAIN-SUFFIX,cnet.com,Proxies
+  - DOMAIN-SUFFIX,cocoapods.org,Proxies
+  - DOMAIN-SUFFIX,comodoca.com,Proxies
+  - DOMAIN-SUFFIX,crashlytics.com,Proxies
+  - DOMAIN-SUFFIX,culturedcode.com,Proxies
+  - DOMAIN-SUFFIX,d.pr,Proxies
+  - DOMAIN-SUFFIX,danilo.to,Proxies
+  - DOMAIN-SUFFIX,dayone.me,Proxies
+  - DOMAIN-SUFFIX,db.tt,Proxies
+  - DOMAIN-SUFFIX,deskconnect.com,Proxies
+  - DOMAIN-SUFFIX,disq.us,Proxies
+  - DOMAIN-SUFFIX,disqus.com,Proxies
+  - DOMAIN-SUFFIX,disquscdn.com,Proxies
+  - DOMAIN-SUFFIX,dnsimple.com,Proxies
+  - DOMAIN-SUFFIX,docker.com,Proxies
+  - DOMAIN-SUFFIX,dribbble.com,Proxies
+  - DOMAIN-SUFFIX,droplr.com,Proxies
+  - DOMAIN-SUFFIX,duckduckgo.com,Proxies
+  - DOMAIN-SUFFIX,dueapp.com,Proxies
+  - DOMAIN-SUFFIX,dytt8.net,Proxies
+  - DOMAIN-SUFFIX,edgecastcdn.net,Proxies
+  - DOMAIN-SUFFIX,edgekey.net,Proxies
+  - DOMAIN-SUFFIX,edgesuite.net,Proxies
+  - DOMAIN-SUFFIX,engadget.com,Proxies
+  - DOMAIN-SUFFIX,entrust.net,Proxies
+  - DOMAIN-SUFFIX,eurekavpt.com,Proxies
+  - DOMAIN-SUFFIX,evernote.com,Proxies
+  - DOMAIN-SUFFIX,fabric.io,Proxies
+  - DOMAIN-SUFFIX,fast.com,Proxies
+  - DOMAIN-SUFFIX,fastly.net,Proxies
+  - DOMAIN-SUFFIX,fc2.com,Proxies
+  - DOMAIN-SUFFIX,feedburner.com,Proxies
+  - DOMAIN-SUFFIX,feedly.com,Proxies
+  - DOMAIN-SUFFIX,feedsportal.com,Proxies
+  - DOMAIN-SUFFIX,fiftythree.com,Proxies
+  - DOMAIN-SUFFIX,firebaseio.com,Proxies
+  - DOMAIN-SUFFIX,flexibits.com,Proxies
+  - DOMAIN-SUFFIX,flickr.com,Proxies
+  - DOMAIN-SUFFIX,flipboard.com,Proxies
+  - DOMAIN-SUFFIX,g.co,Proxies
+  - DOMAIN-SUFFIX,gabia.net,Proxies
+  - DOMAIN-SUFFIX,geni.us,Proxies
+  - DOMAIN-SUFFIX,gfx.ms,Proxies
+  - DOMAIN-SUFFIX,ggpht.com,Proxies
+  - DOMAIN-SUFFIX,ghostnoteapp.com,Proxies
+  - DOMAIN-SUFFIX,git.io,Proxies
+  - DOMAIN-KEYWORD,github,Proxies
+  - DOMAIN-SUFFIX,globalsign.com,Proxies
+  - DOMAIN-SUFFIX,gmodules.com,Proxies
+  - DOMAIN-SUFFIX,godaddy.com,Proxies
+  - DOMAIN-SUFFIX,golang.org,Proxies
+  - DOMAIN-SUFFIX,gongm.in,Proxies
+  - DOMAIN-SUFFIX,goo.gl,Proxies
+  - DOMAIN-SUFFIX,goodreaders.com,Proxies
+  - DOMAIN-SUFFIX,goodreads.com,Proxies
+  - DOMAIN-SUFFIX,gravatar.com,Proxies
+  - DOMAIN-SUFFIX,gstatic.com,Proxies
+  - DOMAIN-SUFFIX,gvt0.com,Proxies
+  - DOMAIN-SUFFIX,hockeyapp.net,Proxies
+  - DOMAIN-SUFFIX,hotmail.com,Proxies
+  - DOMAIN-SUFFIX,icons8.com,Proxies
+  - DOMAIN-SUFFIX,ifixit.com,Proxies
+  - DOMAIN-SUFFIX,ift.tt,Proxies
+  - DOMAIN-SUFFIX,ifttt.com,Proxies
+  - DOMAIN-SUFFIX,iherb.com,Proxies
+  - DOMAIN-SUFFIX,imageshack.us,Proxies
+  - DOMAIN-SUFFIX,img.ly,Proxies
+  - DOMAIN-SUFFIX,imgur.com,Proxies
+  - DOMAIN-SUFFIX,imore.com,Proxies
+  - DOMAIN-SUFFIX,instapaper.com,Proxies
+  - DOMAIN-SUFFIX,ipn.li,Proxies
+  - DOMAIN-SUFFIX,is.gd,Proxies
+  - DOMAIN-SUFFIX,issuu.com,Proxies
+  - DOMAIN-SUFFIX,itgonglun.com,Proxies
+  - DOMAIN-SUFFIX,itun.es,Proxies
+  - DOMAIN-SUFFIX,ixquick.com,Proxies
+  - DOMAIN-SUFFIX,j.mp,Proxies
+  - DOMAIN-SUFFIX,js.revsci.net,Proxies
+  - DOMAIN-SUFFIX,jshint.com,Proxies
+  - DOMAIN-SUFFIX,jtvnw.net,Proxies
+  - DOMAIN-SUFFIX,justgetflux.com,Proxies
+  - DOMAIN-SUFFIX,kat.cr,Proxies
+  - DOMAIN-SUFFIX,klip.me,Proxies
+  - DOMAIN-SUFFIX,libsyn.com,Proxies
+  - DOMAIN-SUFFIX,linkedin.com,Proxies
+  - DOMAIN-SUFFIX,linode.com,Proxies
+  - DOMAIN-SUFFIX,lithium.com,Proxies
+  - DOMAIN-SUFFIX,littlehj.com,Proxies
+  - DOMAIN-SUFFIX,live.com,Proxies
+  - DOMAIN-SUFFIX,live.net,Proxies
+  - DOMAIN-SUFFIX,livefilestore.com,Proxies
+  - DOMAIN-SUFFIX,llnwd.net,Proxies
+  - DOMAIN-SUFFIX,macid.co,Proxies
+  - DOMAIN-SUFFIX,macromedia.com,Proxies
+  - DOMAIN-SUFFIX,macrumors.com,Proxies
+  - DOMAIN-SUFFIX,mashable.com,Proxies
+  - DOMAIN-SUFFIX,mathjax.org,Proxies
+  - DOMAIN-SUFFIX,medium.com,Proxies
+  - DOMAIN-SUFFIX,mega.co.nz,Proxies
+  - DOMAIN-SUFFIX,mega.nz,Proxies
+  - DOMAIN-SUFFIX,megaupload.com,Proxies
+  - DOMAIN-SUFFIX,microsofttranslator.com,Proxies
+  - DOMAIN-SUFFIX,mindnode.com,Proxies
+  - DOMAIN-SUFFIX,mobile01.com,Proxies
+  - DOMAIN-SUFFIX,modmyi.com,Proxies
+  - DOMAIN-SUFFIX,msedge.net,Proxies
+  - DOMAIN-SUFFIX,myfontastic.com,Proxies
+  - DOMAIN-SUFFIX,name.com,Proxies
+  - DOMAIN-SUFFIX,nextmedia.com,Proxies
+  - DOMAIN-SUFFIX,nsstatic.net,Proxies
+  - DOMAIN-SUFFIX,nssurge.com,Proxies
+  - DOMAIN-SUFFIX,nyt.com,Proxies
+  - DOMAIN-SUFFIX,nytimes.com,Proxies
+  - DOMAIN-SUFFIX,omnigroup.com,Proxies
+  - DOMAIN-SUFFIX,onedrive.com,Proxies
+  - DOMAIN-SUFFIX,onenote.com,Proxies
+  - DOMAIN-SUFFIX,ooyala.com,Proxies
+  - DOMAIN-SUFFIX,openvpn.net,Proxies
+  - DOMAIN-SUFFIX,openwrt.org,Proxies
+  - DOMAIN-SUFFIX,orkut.com,Proxies
+  - DOMAIN-SUFFIX,osxdaily.com,Proxies
+  - DOMAIN-SUFFIX,outlook.com,Proxies
+  - DOMAIN-SUFFIX,ow.ly,Proxies
+  - DOMAIN-SUFFIX,paddleapi.com,Proxies
+  - DOMAIN-SUFFIX,parallels.com,Proxies
+  - DOMAIN-SUFFIX,parse.com,Proxies
+  - DOMAIN-SUFFIX,pdfexpert.com,Proxies
+  - DOMAIN-SUFFIX,periscope.tv,Proxies
+  - DOMAIN-SUFFIX,pinboard.in,Proxies
+  - DOMAIN-SUFFIX,pinterest.com,Proxies
+  - DOMAIN-SUFFIX,pixelmator.com,Proxies
+  - DOMAIN-SUFFIX,pixiv.net,Proxies
+  - DOMAIN-SUFFIX,playpcesor.com,Proxies
+  - DOMAIN-SUFFIX,playstation.com,Proxies
+  - DOMAIN-SUFFIX,playstation.com.hk,Proxies
+  - DOMAIN-SUFFIX,playstation.net,Proxies
+  - DOMAIN-SUFFIX,playstationnetwork.com,Proxies
+  - DOMAIN-SUFFIX,pushwoosh.com,Proxies
+  - DOMAIN-SUFFIX,rime.im,Proxies
+  - DOMAIN-SUFFIX,servebom.com,Proxies
+  - DOMAIN-SUFFIX,sfx.ms,Proxies
+  - DOMAIN-SUFFIX,shadowsocks.org,Proxies
+  - DOMAIN-SUFFIX,sharethis.com,Proxies
+  - DOMAIN-SUFFIX,shazam.com,Proxies
+  - DOMAIN-SUFFIX,skype.com,Proxies
+  - DOMAIN-SUFFIX,smartdnsProxies.com,Proxies
+  - DOMAIN-SUFFIX,smartmailcloud.com,Proxies
+  - DOMAIN-SUFFIX,sndcdn.com,Proxies
+  - DOMAIN-SUFFIX,sony.com,Proxies
+  - DOMAIN-SUFFIX,soundcloud.com,Proxies
+  - DOMAIN-SUFFIX,sourceforge.net,Proxies
+  - DOMAIN-SUFFIX,spotify.com,Proxies
+  - DOMAIN-SUFFIX,squarespace.com,Proxies
+  - DOMAIN-SUFFIX,sstatic.net,Proxies
+  - DOMAIN-SUFFIX,st.luluku.pw,Proxies
+  - DOMAIN-SUFFIX,stackoverflow.com,Proxies
+  - DOMAIN-SUFFIX,startpage.com,Proxies
+  - DOMAIN-SUFFIX,staticflickr.com,Proxies
+  - DOMAIN-SUFFIX,steamcommunity.com,Proxies
+  - DOMAIN-SUFFIX,symauth.com,Proxies
+  - DOMAIN-SUFFIX,symcb.com,Proxies
+  - DOMAIN-SUFFIX,symcd.com,Proxies
+  - DOMAIN-SUFFIX,tapbots.com,Proxies
+  - DOMAIN-SUFFIX,tapbots.net,Proxies
+  - DOMAIN-SUFFIX,tdesktop.com,Proxies
+  - DOMAIN-SUFFIX,techcrunch.com,Proxies
+  - DOMAIN-SUFFIX,techsmith.com,Proxies
+  - DOMAIN-SUFFIX,thepiratebay.org,Proxies
+  - DOMAIN-SUFFIX,theverge.com,Proxies
+  - DOMAIN-SUFFIX,time.com,Proxies
+  - DOMAIN-SUFFIX,timeinc.net,Proxies
+  - DOMAIN-SUFFIX,tiny.cc,Proxies
+  - DOMAIN-SUFFIX,tinypic.com,Proxies
+  - DOMAIN-SUFFIX,tmblr.co,Proxies
+  - DOMAIN-SUFFIX,todoist.com,Proxies
+  - DOMAIN-SUFFIX,trello.com,Proxies
+  - DOMAIN-SUFFIX,trustasiassl.com,Proxies
+  - DOMAIN-SUFFIX,tumblr.co,Proxies
+  - DOMAIN-SUFFIX,tumblr.com,Proxies
+  - DOMAIN-SUFFIX,tweetdeck.com,Proxies
+  - DOMAIN-SUFFIX,tweetmarker.net,Proxies
+  - DOMAIN-SUFFIX,twitch.tv,Proxies
+  - DOMAIN-SUFFIX,txmblr.com,Proxies
+  - DOMAIN-SUFFIX,typekit.net,Proxies
+  - DOMAIN-SUFFIX,ubertags.com,Proxies
+  - DOMAIN-SUFFIX,ublock.org,Proxies
+  - DOMAIN-SUFFIX,ubnt.com,Proxies
+  - DOMAIN-SUFFIX,ulyssesapp.com,Proxies
+  - DOMAIN-SUFFIX,urchin.com,Proxies
+  - DOMAIN-SUFFIX,usertrust.com,Proxies
+  - DOMAIN-SUFFIX,v.gd,Proxies
+  - DOMAIN-SUFFIX,v2ex.com,Proxies
+  - DOMAIN-SUFFIX,vimeo.com,Proxies
+  - DOMAIN-SUFFIX,vimeocdn.com,Proxies
+  - DOMAIN-SUFFIX,vine.co,Proxies
+  - DOMAIN-SUFFIX,vivaldi.com,Proxies
+  - DOMAIN-SUFFIX,vox-cdn.com,Proxies
+  - DOMAIN-SUFFIX,vsco.co,Proxies
+  - DOMAIN-SUFFIX,vultr.com,Proxies
+  - DOMAIN-SUFFIX,w.org,Proxies
+  - DOMAIN-SUFFIX,w3schools.com,Proxies
+  - DOMAIN-SUFFIX,webtype.com,Proxies
+  - DOMAIN-SUFFIX,wikiwand.com,Proxies
+  - DOMAIN-SUFFIX,wikileaks.org,Proxies
+  - DOMAIN-SUFFIX,wikimedia.org,Proxies
+  - DOMAIN-SUFFIX,wikipedia.com,Proxies
+  - DOMAIN-SUFFIX,wikipedia.org,Proxies
+  - DOMAIN-SUFFIX,windows.com,Proxies
+  - DOMAIN-SUFFIX,windows.net,Proxies
+  - DOMAIN-SUFFIX,wire.com,Proxies
+  - DOMAIN-SUFFIX,wordpress.com,Proxies
+  - DOMAIN-SUFFIX,workflowy.com,Proxies
+  - DOMAIN-SUFFIX,wp.com,Proxies
+  - DOMAIN-SUFFIX,wsj.com,Proxies
+  - DOMAIN-SUFFIX,wsj.net,Proxies
+  - DOMAIN-SUFFIX,xda-developers.com,Proxies
+  - DOMAIN-SUFFIX,xeeno.com,Proxies
+  - DOMAIN-SUFFIX,xiti.com,Proxies
+  - DOMAIN-SUFFIX,yahoo.com,Proxies
+  - DOMAIN-SUFFIX,yimg.com,Proxies
+  - DOMAIN-SUFFIX,ying.com,Proxies
+  - DOMAIN-SUFFIX,yoyo.org,Proxies
+  - DOMAIN-SUFFIX,ytimg.com,Proxies 
+
+ # 下面的规则是通过上面的rule-provider来确定的
+  - RULE-SET,reject,REJECT
+  - RULE-SET,icloud,DIRECT
+  - RULE-SET,apple,DIRECT
+  - RULE-SET,google,DIRECT
+  - RULE-SET,proxy,Proxies
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,gfw,Proxies
+  - RULE-SET,greatfire,Proxies
+  - RULE-SET,telegramcidr,Proxies
+  - RULE-SET,cncidr,DIRECT
+  - RULE-SET,lancidr,DIRECT
+  - GEOIP,,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxies
