@@ -145,7 +145,7 @@ dns:
 proxy-providers: 
   泡泡Dog:
     type: http
-    url: "https://v1.dogapi.yachts/api/v1/client/subscribe?token=c118ed05f93562f5d8c6ba220dba4ad7&flag=clash" # 机场给你的订阅链接
+    url: "URL" # 机场给你的订阅链接
     interval: 36000 # 每10小时更新一次订阅
     path: ./profiles/泡泡Dog.yaml # 保存在本地文件的名字
     health-check:
